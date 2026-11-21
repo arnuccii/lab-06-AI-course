@@ -1,0 +1,52 @@
+{
+  "harness_controls": [
+    "validate_input",
+    "blind",
+    "refuse",
+    "log",
+    "escalate"
+  ],
+  "format_problems": [],
+  "entries": [
+    {
+      "control": "validate_input",
+      "principle": "Safety and Security",
+      "principle_source": "UNESCO Recommendation on the Ethics of Artificial Intelligence (2021), Section III.2, Paragraph 27",
+      "instrument": "Law of the Republic of Kazakhstan No. 230-VIII 'On Artificial Intelligence' (17 November 2025)",
+      "provision": "Article 11(1) and Article 18(1) (used as a compliance benchmark for this educational prototype)",
+      "why_here": "Part 1 measured clean profiles where schema errors were absent, so validate_input blocks out-of-range or malformed fields (such as GPA 9.9 or exam score -5) before LLM inference to prevent arbitrary prompt corruption."
+    },
+    {
+      "control": "blind",
+      "principle": "Fairness and Non-Discrimination",
+      "principle_source": "UNESCO Recommendation on the Ethics of Artificial Intelligence (2021), Section III.2, Paragraphs 28-30",
+      "instrument": "Law of the Republic of Kazakhstan No. 94-V 'On Personal Data and Their Protection' (21 May 2013)",
+      "provision": "Article 7(9) (read alongside Article 6 of Law of the Republic of Kazakhstan No. 230-VIII of 17 November 2025, used as a prototype benchmark)",
+      "why_here": "Withholds applicant name and university from the prompt because Part 1 measured a statistically significant +2.5-point score gap favoring flagship over regional universities (sign p=0.002) alongside non-zero decision flips on name attributes (5.0% name_language, 10.0% gender_coded_name) that are irrelevant to merit."
+    },
+    {
+      "control": "refuse",
+      "principle": "Respect for Human Autonomy and Freedom of Will",
+      "principle_source": "EU High-Level Expert Group on AI, Ethics Guidelines for Trustworthy AI (2019), Chapter I, Section 1",
+      "instrument": "Law of the Republic of Kazakhstan No. 94-V 'On Personal Data and Their Protection' (21 May 2013)",
+      "provision": "Article 7(1), Article 7(8), and Article 8(1) (and Article 16(1)(6) of Law of the Republic of Kazakhstan No. 230-VIII of 17 November 2025, used as a prototype benchmark)",
+      "why_here": "Halts automated processing with zero model calls whenever purpose is unauthorized, the applicant is under 18, consent is absent, or free-text fields contain prompt-injection instructions, because Part 1 confirmed the bare agent scores every input indiscriminately without a refusal path."
+    },
+    {
+      "control": "log",
+      "principle": "Transparency, Explainability, and Accountability",
+      "principle_source": "UNESCO Recommendation on the Ethics of Artificial Intelligence (2021), Section III.2, Paragraphs 37-43",
+      "instrument": "Law of the Republic of Kazakhstan No. 230-VIII 'On Artificial Intelligence' (17 November 2025)",
+      "provision": "Article 7, Article 8(1), and Article 16(1)(4)-(5) (benchmarked alongside Regulation (EU) 2024/1689, Article 12(1), as non-binding on this prototype)",
+      "why_here": "Records an immutable JSONL audit entry with prompt SHA-256 hashes, withheld field names, scores, and reason codes for every call so reviewers can audit the 0% post-blinding flip rate and explain individual decisions without duplicating raw personal data."
+    },
+    {
+      "control": "escalate",
+      "principle": "Human Oversight and Determination",
+      "principle_source": "UNESCO Recommendation on the Ethics of Artificial Intelligence (2021), Section III.2, Paragraphs 35-36",
+      "instrument": "Law of the Republic of Kazakhstan No. 230-VIII 'On Artificial Intelligence' (17 November 2025)",
+      "provision": "Article 8(1) and Article 9 (benchmarked alongside Regulation (EU) 2024/1689, Article 14(1) and Article 14(4)(d), as non-binding on this prototype)",
+      "why_here": "Routes unparseable replies, high-merit or high-need rejections, and scores in the 35-45 borderline band to human reviewers because Part 1 showed the bare agent's shortlist/reject boundary sits at 45 points (with 33 rejects and 31 shortlists overlapping in the 40-49 bin) where small score shifts flip discrete decisions."
+    }
+  ]
+}
